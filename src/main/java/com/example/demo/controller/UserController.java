@@ -34,7 +34,12 @@ public class UserController {
     }
 
     @GetMapping("/getUsers")
-    public ResponseEntity getUsers(@PathVariable Long id){
+    public ResponseEntity<List<User>> getUsers(){
+        return ResponseEntity.ok(userList);
+    }
+
+    @GetMapping("/getUserById")
+    public ResponseEntity getUserById(@PathVariable Long id){
         Optional<User> optionalUser = userList.stream()
                 .filter(user2 -> user2.getId() == id)
                 .findFirst();
@@ -46,10 +51,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteUser")
-    public ResponseEntity<User> deleteUser(@PathVariable Long index){
-        User temp = userList.get(Math.toIntExact(index));
-        userList.remove(index);
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<User> deleteUser(@PathVariable Long userId){
+        User temp = userList.get(Math.toIntExact(userId));
+        userList.remove(userId);
         return ResponseEntity.ok(temp);
     }
 
