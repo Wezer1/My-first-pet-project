@@ -27,18 +27,14 @@ public class UserController {
         userList.add(user3);
         userList.add(user4);
     }
-
-    @PostMapping("/user")//сериализация      десериализация
-    public ResponseEntity<User> getInfo(@RequestBody User user){
-        return ResponseEntity.ok(user);
-    }
+    //сериализация      десериализация
 
     @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok(userList);
     }
 
-    @GetMapping("/getUserById")
+    @GetMapping("/getUserById/{id}")
     public ResponseEntity getUserById(@PathVariable Long id){
         Optional<User> optionalUser = userList.stream()
                 .filter(user2 -> user2.getId() == id)
@@ -58,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok(temp);
     }
 
-    @PostMapping("/addfUser")
+    @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user){
         userList.add(user);
         return ResponseEntity.ok(user);
