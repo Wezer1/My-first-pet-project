@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: habrpguser
+    driver-class-name: org.postgresql.Driver
+    password: pgpwd4habr
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
