@@ -1,10 +1,9 @@
 package com.example.demo.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+
+import javax.persistence.*;
+
 import java.sql.Timestamp;
 
 @Entity
@@ -13,15 +12,21 @@ public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
+    @Column(name = "first_name", length = 64)
     private String firstName;
 
+    @Column(name = "second_name", length = 64)
     private String secondName;
 
+    @Column(name = "email", length = 64)
     private String email;
 
-    private Timestamp birthDate;
+    @Column(name = "birth_date")
+    private java.sql.Timestamp birthDate;
+
 
     // Геттеры и сеттеры
 
