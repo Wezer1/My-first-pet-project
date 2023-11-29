@@ -1,15 +1,12 @@
 package com.example.demo.entity;
 
-
-
 import javax.persistence.*;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "Users")
-public class User{
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

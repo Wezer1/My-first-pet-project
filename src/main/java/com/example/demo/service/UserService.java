@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.Repositoriy.UserRepository;
+
 import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(int userId) {
-        userRepository.deleteById(userId);
-    }
+    public void deleteUser(int userId) {userRepository.deleteById(userId);}
 }
 
