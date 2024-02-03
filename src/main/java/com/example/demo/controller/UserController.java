@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.User;
+import com.example.demo.dto.User;
 import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,12 @@ import java.util.List;
 @RequestMapping("/api/users")//Указатель мапинга между HTTP-запросом и методами обработки контроллера
 public class UserController {
 
+    private final UserService userService;
 
-
-    private UserService userService;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
     //сериализация      десериализация
 
     @GetMapping("/getUsers")
@@ -38,8 +42,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user){
-        userService.saveUser(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
 //    @PutMapping("/modifUser")
