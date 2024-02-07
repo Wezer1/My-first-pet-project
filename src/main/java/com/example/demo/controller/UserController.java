@@ -21,26 +21,23 @@ public class UserController {
     }
     //сериализация      десериализация
 
-    @GetMapping("/getUsers")
+    @GetMapping("/")
     public ResponseEntity<List<User>> getUsers(){
-        List<User> list = userService.getAllUsers();
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/getUserById/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+    @GetMapping("/{usersId}")
+    public ResponseEntity<User> getUserById(@PathVariable int usersId){
+        return ResponseEntity.ok(userService.getUserById(usersId));
     }
 
-    @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<User> deleteUser(@PathVariable int userId){
-        User user = userService.getUserById(userId);
-        userService.deleteUser(userId);
-        return ResponseEntity.ok(user);
+    @DeleteMapping("/{usersId}")
+    public ResponseEntity<User> deleteUser(@PathVariable int usersId){
+        userService.deleteUser(usersId);
+        return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/")
     public ResponseEntity<User> addUser(@RequestBody User user){
         return ResponseEntity.ok(userService.saveUser(user));
     }

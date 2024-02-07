@@ -31,15 +31,10 @@ public class UserService {
     }
 
     public User getUserById(int userId) {
-        Optional<com.example.demo.entity.User> userOptional = userRepository.findById(userId); // Получаем пользователя из репозитория
-
-        if(userOptional.isPresent()){
-            com.example.demo.entity.User userEntity = (com.example.demo.entity.User) userOptional.get();
-            log.info("Get user: {}", userMapper.toDto(userEntity));
-            return userMapper.toDto(userEntity);
-        }else{
-            return null;
-        }
+        log.info("Get user by id: ");
+        Optional<com.example.demo.entity.User> userOptional = Optional.ofNullable(userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Пользователь с " + userId + " не найден")));
+        return userMapper.toDto(userOptional.get());
 
     }
 
@@ -49,18 +44,9 @@ public class UserService {
             return userMapper.toDto(savedUser);
     }
 
-    public User deleteUser(int userId) {
-        Optional<com.example.demo.entity.User> userOptional = userRepository.findById(userId);
-        if(userOptional.isPresent()){
-            com.example.demo.entity.User userEntity = (com.example.demo.entity.User) userOptional.get();
-            log.info("Delete user: {}", userMapper.toDto(userEntity));
-            userRepository.deleteById(userId);
-            return userMapper.toDto(userEntity);
-        }else{
-            return null;
-        }
-
-
+    public void deleteUser(int userId) {
+        log.info("Delete user");
+        userRepository.deleteById(userId);
     }
 }
 

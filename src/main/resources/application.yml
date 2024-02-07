@@ -4,5 +4,5 @@ spring:
     username: habrpguser
     driver-class-name: org.postgresql.Driver
     password: pgpwd4habr
-    liquibase:
-      change-log: classpath:db/changelog/db.changelog-master.xml
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
