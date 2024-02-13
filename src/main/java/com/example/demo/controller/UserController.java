@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.User;
 import com.example.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,12 @@ import java.util.List;
 @RestController//обработка запроса HTTP и возвращение его в формате JSON лии XML
 // каждый метод возвращает данные, которые будут преобразованы в JSON или XML и отправлены обратно клиенту
 @RequestMapping("/api/users")//Указатель мапинга между HTTP-запросом и методами обработки контроллера
+@RequiredArgsConstructor
+
 public class UserController {
 
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
     //сериализация      десериализация
 
     @GetMapping("/")
