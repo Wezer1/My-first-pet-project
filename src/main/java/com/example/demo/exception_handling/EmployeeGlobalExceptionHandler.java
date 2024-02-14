@@ -1,5 +1,7 @@
 package com.example.demo.exception_handling;
 
+import com.example.demo.dto.EmployeeIncorrectData;
+import com.example.demo.exceptions.NoSuchEmployeeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.*;
-import com.example.demo.exception_handling.NoSuchEmployeeException;
+import com.example.demo.exceptions.NoSuchEmployeeException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +22,9 @@ public class UserService {
 
     public List<User> getAllUsers() {
         log.info("Get all users: ");
+        if(userRepository.findAll().isEmpty()){
+            throw new NoSuchEmployeeException("No employees");
+        }
         return userRepository.findAll().stream().map(userMapper :: toDto).collect(Collectors.toList());
     }
 
