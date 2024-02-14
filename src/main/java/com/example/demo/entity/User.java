@@ -1,11 +1,15 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-
-import java.sql.Timestamp;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@Data
 public class User {
 
     @Id
@@ -14,57 +18,22 @@ public class User {
     private int id;
 
     @Column(name = "first_name", length = 64)
+    @NotBlank
     private String firstName;
 
     @Column(name = "second_name", length = 64)
+    @NotBlank
     private String secondName;
 
     @Column(name = "email", length = 64)
+    @Email
+    @NotBlank
     private String email;
 
     @Column(name = "birth_date")
+    @NotNull
     private java.sql.Timestamp birthDate;
 
 
-    // Геттеры и сеттеры
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Timestamp getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Timestamp birthDate) {
-        this.birthDate = birthDate;
-    }
 }
