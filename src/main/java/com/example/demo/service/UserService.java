@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.*;
+import com.example.demo.exceptions.NoSuchEmployeeException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +22,16 @@ public class UserService {
 
     public List<User> getAllUsers() {
         log.info("Get all users: ");
+        if(userRepository.findAll().isEmpty()){
+            throw new NoSuchEmployeeException("No employees");
+        }
         return userRepository.findAll().stream().map(userMapper :: toDto).collect(Collectors.toList());
     }
 
     public User getUserById(int userId) {
         log.info("Get user by id: ");
         Optional<com.example.demo.entity.User> userOptional = Optional.ofNullable(userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Пользователь с " + userId + " не найден")));
+                .orElseThrow(() -> new NoSuchEmployeeException("There is no employee with ID = "+ userId + " in Database")));
         return userMapper.toDto(userOptional.get());
 
     }
@@ -41,6 +44,9 @@ public class UserService {
 
     public void deleteUser(int userId) {
         log.info("Delete user");
+        if(userRepository.findById(userId).isEmpty()){
+            throw new NoSuchEmployeeException("There is no employee with ID = "+ userId + " in Database");
+        }
         userRepository.deleteById(userId);
     }
 }
