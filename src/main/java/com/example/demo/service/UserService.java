@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.*;
+import com.example.demo.exception_handling.NoSuchEmployeeException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class UserService {
     public User getUserById(int userId) {
         log.info("Get user by id: ");
         Optional<com.example.demo.entity.User> userOptional = Optional.ofNullable(userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Пользователь с " + userId + " не найден")));
+                .orElseThrow(() -> new NoSuchEmployeeException("There is no employee with ID = "+ userId + " in Database")));
         return userMapper.toDto(userOptional.get());
 
     }
@@ -41,6 +42,9 @@ public class UserService {
 
     public void deleteUser(int userId) {
         log.info("Delete user");
+        if(userRepository.findById(userId).isEmpty()){
+            throw new NoSuchEmployeeException("There is no employee with ID = "+ userId + " in Database");
+        }
         userRepository.deleteById(userId);
     }
 }
