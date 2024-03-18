@@ -21,15 +21,15 @@ public class OrderService {
     private final OrderMapper orderMapper;
 
     public List<OrderDTO> getAllUsers() {
-        log.info("Get all Orders: "); // TODO: 18.03.2024 лучше будет так  log.info("Get all Orders");
+        log.info("Get all Orders");
         if(orderRepository.findAll().isEmpty()){
             throw new NoSuchOrderException("No orders");
         }
         return orderRepository.findAll().stream().map(orderMapper :: toDto).collect(Collectors.toList());
     }
 
-    public OrderDTO getOrderById(int orderId) { // TODO: 18.03.2024 Замени тип на обертку Integer
-        log.info("Get order by id: "); // TODO: 18.03.2024 лучше будет так  log.info("Get order by id: {} ", orderId); так ты будешь выводить в лог запрашиваемый id
+    public OrderDTO getOrderById(Integer orderId) {
+        log.info("Get order by id: {} ", orderId);
         Optional<com.example.demo.entity.Order> userOptional = Optional.ofNullable(orderRepository.findById(orderId)
                 .orElseThrow(() -> new NoSuchOrderException("There is no order with ID = "+ orderId + " in Database")));
         return orderMapper.toDto(userOptional.get());
@@ -42,7 +42,7 @@ public class OrderService {
             return orderMapper.toDto(savedOrder);
     }
 
-    public void deleteOrder(int orderId) { // TODO: 18.03.2024 Замени тип на обертку Integer
+    public void deleteOrder(Integer orderId) {
         log.info("Delete order");
         if(orderRepository.findById(orderId).isEmpty()){
             throw new NoSuchOrderException("There is no order with ID = "+ orderId + " in Database");

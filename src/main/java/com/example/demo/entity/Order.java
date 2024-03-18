@@ -1,11 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "orders")
@@ -18,14 +15,12 @@ public class Order {
     private int id;
 
     @Column(name = "name", length = 64)
-    @NotBlank // TODO: 18.03.2024 Здесь эта аннотация избыточна
     private String name;
 
     @Column(name = "price")
-    private int price; // TODO: 18.03.2024 замени тип на обертку Integer
+    private Integer price;
 
     @Column(name = "create_date")
-    @NotNull // TODO: 18.03.2024 Здесь эта аннотация избыточна
-    private java.sql.Timestamp createDate; // TODO: 18.03.2024 Перенеси путь до Timestamp в импорт
+    private Timestamp createDate; // TODO: 18.03.2024 Перенеси путь до Timestamp в импорт
 
 }

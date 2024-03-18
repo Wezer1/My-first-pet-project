@@ -24,12 +24,12 @@ public class OrderController {
     }
 
     @GetMapping("/{ordersId}")
-    public ResponseEntity<OrderDTO> getOrderById(@PathVariable int ordersId){ // TODO: 18.03.2024 Замени тип на обертку Integer, это нужно, так как если туда ничего не придет, то java туда сама запихнет 0
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Integer ordersId){
         return ResponseEntity.ok(orderService.getOrderById(ordersId));
     }
 
     @DeleteMapping("/{ordersId}")
-    public ResponseEntity<OrderDTO> deleteOrder(@PathVariable int ordersId){ // TODO: 18.03.2024 Замени тип на обертку Integer
+    public ResponseEntity<OrderDTO> deleteOrder(@PathVariable Integer ordersId){
         orderService.deleteOrder(ordersId);
         return ResponseEntity.noContent().build();
     }
@@ -39,20 +39,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.saveOrder(OrderDTO));
     }
 
-    // TODO: 18.03.2024 Удали закомментированный код
-//    @PutMapping("/modifUser")
-//    public ResponseEntity modifUser(@RequestBody User user){
-//        Optional<User> optionalUser = userList.stream()
-//                .filter(user2 -> user2.getId() == user.getId())
-//                .findFirst();
-//        if (optionalUser.isPresent()) {
-//            User user1 = optionalUser.get();
-//            user1.updatedUser(user);
-//            return ResponseEntity.ok(user1);
-//        } else {
-//            String errorMessage = "{errorMessage: Пользователь с id " + user.getId() + " не найден}";
-//            return ResponseEntity.badRequest().body(errorMessage);
-//        }
-//    }
+
 }
 
