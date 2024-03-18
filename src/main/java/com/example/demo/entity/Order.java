@@ -21,6 +21,6 @@ public class Order {
     private Integer price;
 
     @Column(name = "create_date")
-    private Timestamp createDate; // TODO: 18.03.2024 Перенеси путь до Timestamp в импорт
+    private Timestamp createDate;
 
 }
