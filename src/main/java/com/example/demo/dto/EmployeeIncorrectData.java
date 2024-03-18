@@ -1,3 +1,4 @@
+// TODO: 18.03.2024 Удали этот класс
 //package com.example.demo.dto;
 //
 //public class EmployeeIncorrectData {

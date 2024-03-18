@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+// TODO: 18.03.2024 Удали этот класс, мы чуть позже создадим новый
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

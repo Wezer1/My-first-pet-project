@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+// TODO: 18.03.2024 Удали этот класс, позже создадим новый
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

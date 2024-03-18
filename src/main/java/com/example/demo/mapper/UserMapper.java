@@ -1,5 +1,5 @@
 package com.example.demo.mapper;
-
+// TODO: 18.03.2024 Этот мапеер удали, позде сделаем новый
 //import com.example.demo.entity.User;
 //import org.mapstruct.Mapper;
 //import org.mapstruct.Mapping;

@@ -24,12 +24,12 @@ public class OrderController {
     }
 
     @GetMapping("/{ordersId}")
-    public ResponseEntity<OrderDTO> getOrderById(@PathVariable int ordersId){
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable int ordersId){ // TODO: 18.03.2024 Замени тип на обертку Integer, это нужно, так как если туда ничего не придет, то java туда сама запихнет 0
         return ResponseEntity.ok(orderService.getOrderById(ordersId));
     }
 
     @DeleteMapping("/{ordersId}")
-    public ResponseEntity<OrderDTO> deleteOrder(@PathVariable int ordersId){
+    public ResponseEntity<OrderDTO> deleteOrder(@PathVariable int ordersId){ // TODO: 18.03.2024 Замени тип на обертку Integer
         orderService.deleteOrder(ordersId);
         return ResponseEntity.noContent().build();
     }
@@ -39,6 +39,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.saveOrder(OrderDTO));
     }
 
+    // TODO: 18.03.2024 Удали закомментированный код
 //    @PutMapping("/modifUser")
 //    public ResponseEntity modifUser(@RequestBody User user){
 //        Optional<User> optionalUser = userList.stream()
