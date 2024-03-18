@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Order;
+import com.example.demo.dto.OrderDTO;
 import com.example.demo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +19,24 @@ public class OrderController {
     //сериализация      десериализация
 
     @GetMapping("/")
-    public ResponseEntity<List<Order>> getOrders(){
+    public ResponseEntity<List<OrderDTO>> getOrders(){
         return ResponseEntity.ok(orderService.getAllUsers());
     }
 
     @GetMapping("/{ordersId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable int ordersId){
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable int ordersId){
         return ResponseEntity.ok(orderService.getOrderById(ordersId));
     }
 
     @DeleteMapping("/{ordersId}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable int ordersId){
+    public ResponseEntity<OrderDTO> deleteOrder(@PathVariable int ordersId){
         orderService.deleteOrder(ordersId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/")
-    public ResponseEntity<Order> addOrder(@RequestBody Order Order){
-        return ResponseEntity.ok(orderService.saveOrder(Order));
+    public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO OrderDTO){
+        return ResponseEntity.ok(orderService.saveOrder(OrderDTO));
     }
 
 //    @PutMapping("/modifUser")

@@ -20,7 +20,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-    public List<Order> getAllUsers() {
+    public List<OrderDTO> getAllUsers() {
         log.info("Get all Orders: ");
         if(orderRepository.findAll().isEmpty()){
             throw new NoSuchOrderException("No orders");
@@ -28,7 +28,7 @@ public class OrderService {
         return orderRepository.findAll().stream().map(orderMapper :: toDto).collect(Collectors.toList());
     }
 
-    public Order getOrderById(int orderId) {
+    public OrderDTO getOrderById(int orderId) {
         log.info("Get order by id: ");
         Optional<com.example.demo.entity.Order> userOptional = Optional.ofNullable(orderRepository.findById(orderId)
                 .orElseThrow(() -> new NoSuchOrderException("There is no order with ID = "+ orderId + " in Database")));
@@ -36,9 +36,9 @@ public class OrderService {
 
     }
 
-    public Order saveOrder(Order order) {
-        log.info("Saving order: {}", order);
-        com.example.demo.entity.Order savedOrder = orderRepository.save(orderMapper.toEntity(order));
+    public OrderDTO saveOrder(OrderDTO orderDTO) {
+        log.info("Saving order: {}", orderDTO);
+        com.example.demo.entity.Order savedOrder = orderRepository.save(orderMapper.toEntity(orderDTO));
             return orderMapper.toDto(savedOrder);
     }
 

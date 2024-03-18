@@ -7,27 +7,27 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "orders")
-@Data
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-
-    @Column(name = "name", length = 64)
-    @NotBlank
-    private String name;
-
-    @Column(name = "price")
-    private int price;
-
-    @Column(name = "create_date")
-    @NotNull
-    private java.sql.Timestamp createDate;
-
-
-
-}
+//@Entity
+//@Table(name = "orders")
+//@Data
+//public class User {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id")
+//    private int id;
+//
+//    @Column(name = "name", length = 64)
+//    @NotBlank
+//    private String name;
+//
+//    @Column(name = "price")
+//    private int price;
+//
+//    @Column(name = "create_date")
+//    @NotNull
+//    private java.sql.Timestamp createDate;
+//
+//
+//
+//}
