@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "orders")
 @Data
-public class User {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,5 @@ public class User {
     @Column(name = "create_date")
     @NotNull
     private java.sql.Timestamp createDate;
-
-
 
 }

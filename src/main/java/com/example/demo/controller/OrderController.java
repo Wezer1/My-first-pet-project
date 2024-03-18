@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.User;
-import com.example.demo.service.UserService;
+import com.example.demo.dto.Order;
+import com.example.demo.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,34 +10,33 @@ import java.util.List;
 
 @RestController//обработка запроса HTTP и возвращение его в формате JSON лии XML
 // каждый метод возвращает данные, которые будут преобразованы в JSON или XML и отправлены обратно клиенту
-@RequestMapping("/api/users")//Указатель мапинга между HTTP-запросом и методами обработки контроллера
+@RequestMapping("/api/orders")//Указатель мапинга между HTTP-запросом и методами обработки контроллера
 @RequiredArgsConstructor
+public class OrderController {
 
-public class UserController {
-
-    private final UserService userService;
+    private final OrderService orderService;
 
     //сериализация      десериализация
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<Order>> getOrders(){
+        return ResponseEntity.ok(orderService.getAllUsers());
     }
 
-    @GetMapping("/{usersId}")
-    public ResponseEntity<User> getUserById(@PathVariable int usersId){
-        return ResponseEntity.ok(userService.getUserById(usersId));
+    @GetMapping("/{ordersId}")
+    public ResponseEntity<Order> getOrderById(@PathVariable int ordersId){
+        return ResponseEntity.ok(orderService.getOrderById(ordersId));
     }
 
-    @DeleteMapping("/{usersId}")
-    public ResponseEntity<User> deleteUser(@PathVariable int usersId){
-        userService.deleteUser(usersId);
+    @DeleteMapping("/{ordersId}")
+    public ResponseEntity<Order> deleteOrder(@PathVariable int ordersId){
+        orderService.deleteOrder(ordersId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        return ResponseEntity.ok(userService.saveUser(user));
+    public ResponseEntity<Order> addOrder(@RequestBody Order Order){
+        return ResponseEntity.ok(orderService.saveOrder(Order));
     }
 
 //    @PutMapping("/modifUser")
