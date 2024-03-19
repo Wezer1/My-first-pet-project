@@ -12,7 +12,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private int id; // TODO: 19.03.2024 Здесь тоже поменяй тип на Integer
 
     @Column(name = "name", length = 64)
     private String name;

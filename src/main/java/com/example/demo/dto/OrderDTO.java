@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO {
-    private int id;
+    private int id; // TODO: 19.03.2024 Здесь тоже поменяй тип на Integer
 
     @NotBlank
     private String name;
