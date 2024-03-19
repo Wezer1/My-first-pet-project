@@ -1,6 +1,8 @@
 package com.example.demo.dto;
 
-// TODO: 18.03.2024 Добавь сюда аннотацию @Data
+import lombok.Data;
+
+@Data
 public class OrderIncorrectData {
     private String info;
 
