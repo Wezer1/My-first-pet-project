@@ -1,10 +1,8 @@
 package com.example.demo.dto;
 
-public class EmployeeIncorrectData {
+// TODO: 18.03.2024 Добавь сюда аннотацию @Data
+public class OrderIncorrectData {
     private String info;
-
-    public EmployeeIncorrectData() {
-    }
 
     public String getInfo() {
         return info;
