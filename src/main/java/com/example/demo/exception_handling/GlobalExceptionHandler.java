@@ -1,18 +1,19 @@
 package com.example.demo.exception_handling;
 
 import com.example.demo.dto.OrderIncorrectData;
-import com.example.demo.exceptions.NoSuchOrderException;
+import com.example.demo.exceptions.JwtAuthenticationException;
+import com.example.demo.exceptions.NoSuchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class OrderGlobalExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<OrderIncorrectData> handleException(
-            NoSuchOrderException exception){
+            NoSuchException exception){
         OrderIncorrectData data = new OrderIncorrectData();
         data.setInfo(exception.getMessage());
 
@@ -26,5 +27,14 @@ public class OrderGlobalExceptionHandler {
         data.setInfo(exception.getMessage());
 
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<OrderIncorrectData> handleException(
+            JwtAuthenticationException exception){
+        OrderIncorrectData data = new OrderIncorrectData();
+        data.setInfo(exception.getMessage());
+
+        return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
 }

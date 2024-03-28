@@ -4,6 +4,7 @@ import com.example.demo.dto.OrderDTO;
 import com.example.demo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,26 +20,28 @@ public class OrderController {
     //сериализация      десериализация
 
     @GetMapping("/")
+   // @PreAuthorize("hasAuthority('users:read')")
     public ResponseEntity<List<OrderDTO>> getOrders(){
         return ResponseEntity.ok(orderService.getAllUsers());
     }
 
     @GetMapping("/{ordersId}")
+  //  @PreAuthorize("hasAuthority('users:read')")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Integer ordersId){
         return ResponseEntity.ok(orderService.getOrderById(ordersId));
     }
 
     @DeleteMapping("/{ordersId}")
+ //   @PreAuthorize("hasAuthority('users:write')")
     public ResponseEntity<OrderDTO> deleteOrder(@PathVariable Integer ordersId){
         orderService.deleteOrder(ordersId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/")
+    //@PreAuthorize("hasAuthority('users:write')")
     public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO OrderDTO){
         return ResponseEntity.ok(orderService.saveOrder(OrderDTO));
     }
-
-
 }
 

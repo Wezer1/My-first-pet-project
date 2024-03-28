@@ -1,11 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.*;
-import com.example.demo.exceptions.NoSuchOrderException;
+import com.example.demo.exceptions.NoSuchException;
 import com.example.demo.mapper.OrderMapper;
 import com.example.demo.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class OrderService {
     public List<OrderDTO> getAllUsers() {
         log.info("Get all Orders");
         if(orderRepository.findAll().isEmpty()){
-            throw new NoSuchOrderException("No orders");
+            throw new NoSuchException("No orders");
         }
         return orderRepository.findAll().stream().map(orderMapper :: toDto).collect(Collectors.toList());
     }
@@ -31,9 +32,8 @@ public class OrderService {
     public OrderDTO getOrderById(Integer orderId) {
         log.info("Get order by id: {} ", orderId);
         Optional<com.example.demo.entity.Order> userOptional = Optional.ofNullable(orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoSuchOrderException("There is no order with ID = "+ orderId + " in Database")));
+                .orElseThrow(() -> new NoSuchException("There is no order with ID = "+ orderId + " in Database")));
         return orderMapper.toDto(userOptional.get());
-
     }
 
     public OrderDTO saveOrder(OrderDTO orderDTO) {
@@ -45,7 +45,7 @@ public class OrderService {
     public void deleteOrder(Integer orderId) {
         log.info("Delete order");
         if(orderRepository.findById(orderId).isEmpty()){
-            throw new NoSuchOrderException("There is no order with ID = "+ orderId + " in Database");
+            throw new NoSuchException("There is no order with ID = "+ orderId + " in Database");
         }
         orderRepository.deleteById(orderId);
     }
