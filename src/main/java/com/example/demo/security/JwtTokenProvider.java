@@ -16,10 +16,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class JwtTokenProvider {
@@ -65,14 +62,18 @@ public class JwtTokenProvider {
         }
     }
 
+    // TODO: 29.03.2024 Теперь мы выбрасываем ошибку, только если у нас есть токен, но он начинается не с  "Bearer"
     public String resolveToken(HttpServletRequest httpServletRequest) {
         String bearerToken = httpServletRequest.getHeader(header);
+        if (Objects.isNull(bearerToken)) {
+            return null;
+        }
 
-        if(bearerToken.startsWith("Bearer") && StringUtils.hasText(bearerToken)){
+        if(bearerToken.startsWith("Bearer")){
             return bearerToken.substring("Bearer".getBytes().length);
         }
 
-        throw new JwtAuthenticationException("Данного пользователя нет");
+        throw new JwtAuthenticationException("Неверный токен авторизации - " + bearerToken);
     }
 
     public Authentication getAuthentication(String token){

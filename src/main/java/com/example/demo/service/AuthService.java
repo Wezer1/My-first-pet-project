@@ -11,8 +11,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Service // TODO: 29.03.2024 Ты забыл пометить сервис аннотацией  @Service, из-за этого он не внедрялся как зависимость в контроллер
 public class AuthService {
 
     private  AuthenticationManager authenticationManager;

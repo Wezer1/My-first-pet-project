@@ -37,4 +37,6 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
+
+    // TODO: 29.03.2024 ты не отлавливаешь  JwtAuthenticationException, в трелло пункт 6.a
 }
