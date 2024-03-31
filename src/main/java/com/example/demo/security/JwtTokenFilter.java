@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.exceptions.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -23,16 +24,18 @@ public class JwtTokenFilter extends GenericFilterBean {
     // TODO: 29.03.2024 Я был не прав. Мы всегда будем попдать в этот фильтер, даже если мы помели путь до контроллера как permitAll. Чтобы корректно работал пришлось поменять метод resolveToken
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException, JwtAuthenticationException {
 
-        if (token != null && jwtTokenProvider.validateToken(token)) { // TODO: 29.03.2024 Тут поменял местами этапы сравнения. Если у тебя может быть null, то всегд вначале проверяй на null, иначе у тебя возникнет NPE
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            if (authentication != null) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
+
+            if (token != null && jwtTokenProvider.validateToken(token)) { // TODO: 29.03.2024 Тут поменял местами этапы сравнения. Если у тебя может быть null, то всегд вначале проверяй на null, иначе у тебя возникнет NPE
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                if (authentication != null) {
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
-        }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+            filterChain.doFilter(servletRequest, servletResponse);
+
     }
 }

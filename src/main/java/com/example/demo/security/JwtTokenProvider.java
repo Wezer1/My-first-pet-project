@@ -34,9 +34,10 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
+
     public String createToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getEmail());
-        claims.put("role", user.getRole());
+        claims.put("role", user.getRole().toString());
         claims.put("user_id", user.getId());
 
         Date now = new Date();
@@ -49,7 +50,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         StringBuilder stringBuilder = new StringBuilder(token);
-        stringBuilder.insert(0,"Bearer ");
+        stringBuilder.insert(0,"Bearer");
         return stringBuilder.toString();
     }
 
@@ -77,10 +78,19 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token){
-        Jws<Claims> claimsJws = Jwts.parser().parseClaimsJws(token);
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
 
-        UserDetails userDetails = SecurityUser.fromToken(claims.get("role", Role.class), claims.getSubject(), claims.get("user_id",Integer.class));
+        String roleString = claims.get("role", String.class);
+        Role role;
+        if ("USER".equals(roleString)) {
+            role = Role.USER;
+        } else if ("ADMIN".equals(roleString)) {
+            role = Role.ADMIN;
+        } else {
+            throw new JwtAuthenticationException("Ваш токен не действителен");
+        }
+        UserDetails userDetails = SecurityUser.fromToken(role, claims.getSubject(), claims.get("user_id",Integer.class));
 
         return new PreAuthenticatedAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

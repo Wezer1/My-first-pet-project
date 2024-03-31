@@ -25,15 +25,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authRequestDTO){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authRequestDTO) {
         return authService.authenticate(authRequestDTO);
     }
-
-    @PostMapping("/register") // todo Почему у тебя два метода с регистрацией? Второй в UserController. Этот не нущен
-    public ResponseEntity<Void> register(@RequestBody UserRegistrationRequestDto registrationRequest) {
-        userService.saveUser(registrationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-
 }

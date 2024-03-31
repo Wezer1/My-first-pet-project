@@ -10,8 +10,6 @@ import java.sql.Timestamp;
 @Data
 public class UserRegistrationRequestDto {
 
-    private Integer id; // todo здесь id не нужен
-
     @NotBlank
     private String email;
 

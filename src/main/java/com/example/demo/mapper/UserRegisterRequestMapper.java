@@ -21,6 +21,7 @@ public abstract class UserRegisterRequestMapper {
         return passwordEncoder.encode(password);
     }
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "password", target = "password", qualifiedByName = "encodePassword")
     public abstract User toEntity(UserRegistrationRequestDto userRegistrationRequestDto);
 
