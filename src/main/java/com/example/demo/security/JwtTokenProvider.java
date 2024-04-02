@@ -50,7 +50,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         StringBuilder stringBuilder = new StringBuilder(token);
-        stringBuilder.insert(0,"Bearer");
+        stringBuilder.insert(0, "Bearer");
         return stringBuilder.toString();
     }
 
@@ -59,7 +59,8 @@ public class JwtTokenProvider {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException exception) {
-            throw new JwtAuthenticationException("Ваш токен авторизации не валиден");
+            //теперь не выбрасываю ошибку, а возвращаю результат проверки
+            return false;
         }
     }
 
@@ -70,14 +71,17 @@ public class JwtTokenProvider {
             return null;
         }
 
-        if(bearerToken.startsWith("Bearer")){
+        if (bearerToken.startsWith("Bearer")) {
             return bearerToken.substring("Bearer".getBytes().length);
+        } else {
+            //возвращаю токен, если не прошел проверку
+            return bearerToken;
         }
 
-        throw new JwtAuthenticationException("Неверный токен авторизации - " + bearerToken);
+//        throw new JwtAuthenticationException("Неверный токен авторизации - " + bearerToken);
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
 
@@ -88,9 +92,9 @@ public class JwtTokenProvider {
         } else if ("ADMIN".equals(roleString)) {
             role = Role.ADMIN;
         } else {
-            throw new JwtAuthenticationException("Ваш токен не действителен");
+            return null;
         }
-        UserDetails userDetails = SecurityUser.fromToken(role, claims.getSubject(), claims.get("user_id",Integer.class));
+        UserDetails userDetails = SecurityUser.fromToken(role, claims.getSubject(), claims.get("user_id", Integer.class));
 
         return new PreAuthenticatedAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

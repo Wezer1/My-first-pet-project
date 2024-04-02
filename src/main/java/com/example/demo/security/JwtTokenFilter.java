@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -26,16 +28,30 @@ public class JwtTokenFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException, JwtAuthenticationException {
 
-            String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
+        String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
 
-            if (token != null && jwtTokenProvider.validateToken(token)) { // TODO: 29.03.2024 Тут поменял местами этапы сравнения. Если у тебя может быть null, то всегд вначале проверяй на null, иначе у тебя возникнет NPE
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                if (authentication != null) {
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+        //Изменил порядок проверок
+        //Первая проверка для выброса UNAUTHORIZED
+        if (token !=null &&!(jwtTokenProvider.validateToken(token))) {
+            HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+            httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value());
+        }
+        //Вторая для корректного токена
+        else if (token != null && jwtTokenProvider.validateToken(token)) { // TODO: 29.03.2024 Тут поменял местами этапы сравнения. Если у тебя может быть null, то всегд вначале проверяй на null, иначе у тебя возникнет NPE
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            if (authentication != null) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
-            filterChain.doFilter(servletRequest, servletResponse);
-
+            //поскольку переписал метод и возвращаю при ошибке null сделал выброс ошибки
+            else{
+                HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+                httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value());
+            }
+        }
+        //Третья для авторизации
+        else if (token == null) {
+            
+        }
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
