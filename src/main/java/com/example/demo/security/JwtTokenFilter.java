@@ -20,11 +20,17 @@ public class JwtTokenFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    // TODO: 03.04.2024 Вместо написания конструктора, пометь класс аннотацией RequiredArgsConstructor
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
     // TODO: 29.03.2024 Я был не прав. Мы всегда будем попдать в этот фильтер, даже если мы помели путь до контроллера как permitAll. Чтобы корректно работал пришлось поменять метод resolveToken
 
+    // TODO: 03.04.2024 Слишком много проверок в данном методе.
+    //  С учетом того, что метод resolveToken будет возвращать токен, только если он верно написан, а в других случаях вернет null
+    //  то тебе будет достаточно проверять на null и через validateToken.
+    //  Если проверка прошла успешно, то кладешь authentication в SecurityContextHolder.
+    //  Если проверка не прошла, то в блоке else кладешь HttpStatus.UNAUTHORIZED в httpServletResponse
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException, JwtAuthenticationException {
 

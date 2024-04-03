@@ -16,7 +16,7 @@ public class UserRegistrationResponseDto {
     @NotBlank
     private String email;
 
-    private String password;
+    private String password; // TODO: 03.04.2024 В респонсе пароль не нужен
 
     @NotNull
     private String name;

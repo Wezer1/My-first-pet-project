@@ -27,6 +27,7 @@ public class AuthResponseDTO {
 
     private String token;
 
+    // TODO: 03.04.2024 Используй lombok @AllArgsConstructor вместо написания конструктора
     public AuthResponseDTO(Integer id, String email, String name, String lastname, Role role, Timestamp birthday, String token) {
         this.id = id;
         this.email = email;

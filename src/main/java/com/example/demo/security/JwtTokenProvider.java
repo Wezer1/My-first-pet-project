@@ -37,7 +37,7 @@ public class JwtTokenProvider {
 
     public String createToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getEmail());
-        claims.put("role", user.getRole().toString());
+        claims.put("role", user.getRole().toString()); // TODO: 03.04.2024 у енума вызови метод name 
         claims.put("user_id", user.getId());
 
         Date now = new Date();
@@ -75,9 +75,9 @@ public class JwtTokenProvider {
             return bearerToken.substring("Bearer".getBytes().length);
         } else {
             //возвращаю токен, если не прошел проверку
-            return bearerToken;
+            return bearerToken; // TODO: 03.04.2024 тут тоже лучше вернуть null 
         }
-
+// TODO: 03.04.2024 это заккоментированный код сотри
 //        throw new JwtAuthenticationException("Неверный токен авторизации - " + bearerToken);
     }
 

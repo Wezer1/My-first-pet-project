@@ -41,7 +41,7 @@ public class UserService {
 //                .orElseThrow(() -> new NoSuchException("There is no user with ID = "+ userId + " in Database")));
 //        return userMapper.toDto(userOptional.get());
 //    }
-
+// TODO: 03.04.2024 забыл аанотацию Transactional
     public UserRegistrationResponseDto saveUser(UserRegistrationRequestDto userRegistrationRequestDto) {
         log.info("Saving user: {}", userRegistrationRequestDto);
         User saveUser = userRepository.save(userRegisterRequestMapper.toEntity(userRegistrationRequestDto));

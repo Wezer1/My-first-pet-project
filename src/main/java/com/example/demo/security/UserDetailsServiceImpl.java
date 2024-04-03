@@ -12,6 +12,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public final UserRepository userRepository;
 
+    // TODO: 03.04.2024 Вместо конструктора пометь класс аннотацией @RequiredArgsConstructor
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
