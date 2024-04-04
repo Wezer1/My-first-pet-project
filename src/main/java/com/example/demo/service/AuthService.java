@@ -5,6 +5,7 @@ import com.example.demo.dto.AuthResponseDTO;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,25 +15,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Service // TODO: 29.03.2024 Ты забыл пометить сервис аннотацией  @Service, из-за этого он не внедрялся как зависимость в контроллер
+@Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    // TODO: 03.04.2024 Вместо написания конструктора, пометь класс аннотацией RequiredArgsConstructor, а также сделай зависимости final
 
-    private  AuthenticationManager authenticationManager;
-    private  JwtTokenProvider jwtTokenProvider;
-    private  UserRepository userRepository;
-
-    public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userRepository = userRepository;
-    }
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     public ResponseEntity<AuthResponseDTO> authenticate(@RequestBody AuthRequestDTO request) {
-        // TODO: 03.04.2024 Метод authenticate выбрасывает  AuthenticationException, необходимо ловить его в хендлере и возвращать ошибку пользователю с кодом 401 UNAUTHORIZED
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));//проводим аунтицикацию через email и пароль
-        // TODO: 03.04.2024 Отлавливай эту ошибку UsernameNotFoundException в хендлере 
             User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));//если аунтификация успешна, с помощью email ищем пользователя
             String token = jwtTokenProvider.createToken(user);//если пользователь есть, то создаем токен
             AuthResponseDTO authResponseDTO = new AuthResponseDTO(user.getId(), user.getEmail(), user.getName(), user.getLastname(), user.getRole(),user.getBirthday(),token);

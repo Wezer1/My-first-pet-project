@@ -3,12 +3,14 @@ package com.example.demo.dto;
 import com.example.demo.model.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.antlr.v4.runtime.Token;
 
 import java.sql.Timestamp;
 
 @Data
+@AllArgsConstructor
 public class AuthResponseDTO {
     private Integer id;
 
@@ -26,15 +28,4 @@ public class AuthResponseDTO {
     private Timestamp birthday;
 
     private String token;
-
-    // TODO: 03.04.2024 Используй lombok @AllArgsConstructor вместо написания конструктора
-    public AuthResponseDTO(Integer id, String email, String name, String lastname, Role role, Timestamp birthday, String token) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.lastname = lastname;
-        this.role = role;
-        this.birthday = birthday;
-        this.token = token;
-    }
 }

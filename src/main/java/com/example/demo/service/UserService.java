@@ -13,6 +13,7 @@ import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,7 @@ public class UserService {
 //        return userMapper.toDto(userOptional.get());
 //    }
 // TODO: 03.04.2024 забыл аанотацию Transactional
+    @Transactional
     public UserRegistrationResponseDto saveUser(UserRegistrationRequestDto userRegistrationRequestDto) {
         log.info("Saving user: {}", userRegistrationRequestDto);
         User saveUser = userRepository.save(userRegisterRequestMapper.toEntity(userRegistrationRequestDto));

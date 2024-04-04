@@ -37,7 +37,7 @@ public class JwtTokenProvider {
 
     public String createToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getEmail());
-        claims.put("role", user.getRole().toString()); // TODO: 03.04.2024 у енума вызови метод name 
+        claims.put("role", user.getRole().name());
         claims.put("user_id", user.getId());
 
         Date now = new Date();
@@ -59,12 +59,10 @@ public class JwtTokenProvider {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException exception) {
-            //теперь не выбрасываю ошибку, а возвращаю результат проверки
             return false;
         }
     }
 
-    // TODO: 29.03.2024 Теперь мы выбрасываем ошибку, только если у нас есть токен, но он начинается не с  "Bearer"
     public String resolveToken(HttpServletRequest httpServletRequest) {
         String bearerToken = httpServletRequest.getHeader(header);
         if (Objects.isNull(bearerToken)) {
@@ -74,11 +72,8 @@ public class JwtTokenProvider {
         if (bearerToken.startsWith("Bearer")) {
             return bearerToken.substring("Bearer".getBytes().length);
         } else {
-            //возвращаю токен, если не прошел проверку
-            return bearerToken; // TODO: 03.04.2024 тут тоже лучше вернуть null 
+            return null;
         }
-// TODO: 03.04.2024 это заккоментированный код сотри
-//        throw new JwtAuthenticationException("Неверный токен авторизации - " + bearerToken);
     }
 
     public Authentication getAuthentication(String token) {

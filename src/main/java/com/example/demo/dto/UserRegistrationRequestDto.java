@@ -3,11 +3,13 @@ package com.example.demo.dto;
 import com.example.demo.model.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+@AllArgsConstructor
 public class UserRegistrationRequestDto {
 
     @NotBlank
@@ -25,13 +27,4 @@ public class UserRegistrationRequestDto {
     private Role role;
 
     private Timestamp birthday;
-
-    public UserRegistrationRequestDto(String email, String password, String name, String lastname, Role role, Timestamp birthday) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.lastname = lastname;
-        this.role = role;
-        this.birthday = birthday;
-    }
 }

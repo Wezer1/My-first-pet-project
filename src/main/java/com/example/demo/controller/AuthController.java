@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthService authService; // TODO: 29.03.2024 Ты тут забыл внедрить зависимость. Вместо написания конструктора можно использовать аанотацию  @RequiredArgsConstructor
-    private final UserService userService; // TODO: 03.04.2024 Эту зависимость удали 
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authRequestDTO) {
