@@ -30,6 +30,5 @@ public class AuthService {
             String token = jwtTokenProvider.createToken(user);//если пользователь есть, то создаем токен
             AuthResponseDTO authResponseDTO = new AuthResponseDTO(user.getId(), user.getEmail(), user.getName(), user.getLastname(), user.getRole(),user.getBirthday(),token);
             return ResponseEntity.ok(authResponseDTO);//передаем пользователя
-
     }
 }

@@ -72,7 +72,7 @@ public class JwtTokenProvider {
         if (bearerToken.startsWith("Bearer")) {
             return bearerToken.substring("Bearer".getBytes().length);
         } else {
-            return null;
+            return bearerToken;
         }
     }
 
