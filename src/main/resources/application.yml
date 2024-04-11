@@ -1,3 +1,7 @@
+jwt:
+  secret: mySpringProject
+  header: Authorization
+  expiration: 86400
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
