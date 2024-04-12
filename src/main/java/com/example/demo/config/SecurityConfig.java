@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST,"/api/user/registration").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/user/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

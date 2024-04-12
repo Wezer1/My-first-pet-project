@@ -1,14 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.OrderDTO;
 import com.example.demo.dto.UserRegistrationRequestDto;
 import com.example.demo.dto.UserRegistrationResponseDto;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -16,11 +17,33 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<UserRegistrationResponseDto>> getOrders(){
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserRegistrationResponseDto> getOrders(@PathVariable Integer userId){
+        return ResponseEntity.ok(userService.getUserById(userId));
+    }
+
+    @PostMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserRegistrationResponseDto> changeUser(@PathVariable Integer userId,@RequestBody UserRegistrationRequestDto userRegistrationRequestDto){
+        return ResponseEntity.ok(userService.changeUser(userId, userRegistrationRequestDto));
+    }
+
     @PostMapping("/registration")
     public ResponseEntity<UserRegistrationResponseDto> registrationUser(@RequestBody UserRegistrationRequestDto userRegistrationRequestDto){
         return ResponseEntity.ok(userService.saveUser(userRegistrationRequestDto));
     }
 
-
-
+    @DeleteMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserRegistrationResponseDto> changeUser(@PathVariable Integer userId){
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
 }
