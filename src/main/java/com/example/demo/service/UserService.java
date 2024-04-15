@@ -28,32 +28,56 @@ public class UserService {
     private final UserRegisterRequestMapper userRegisterRequestMapper;
     private final UserRegisterResponseMapper userRegisterResponseMapper;
 
-//    public List<UserDTO> getAllUsers() {
-//        log.info("Get all Users");
-//        if(userRepository.findAll().isEmpty()){
-//            throw new NoSuchException("No users");
-//        }
-//        return userRepository.findAll().stream().map(userMapper :: toDto).collect(Collectors.toList());
-//    }
-//
-//    public UserDTO getUserById(Integer userId) {
-//        log.info("Get user by id: {} ", userId);
-//        Optional<User> userOptional = Optional.ofNullable(userRepository.findById(userId)
-//                .orElseThrow(() -> new NoSuchException("There is no user with ID = "+ userId + " in Database")));
-//        return userMapper.toDto(userOptional.get());
-//    }
+    @Transactional
+    public List<UserRegistrationResponseDto> getAllUsers() {
+        log.info("Get all Users");
+        if(userRepository.findAll().isEmpty()){
+            throw new NoSuchException("No users");
+        }
+        return userRepository.findAll().stream().map(userRegisterResponseMapper :: toRegistrationResponseDto).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public UserRegistrationResponseDto getUserById(Integer userId) {
+        log.info("Get user by id: {} ", userId);
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchException("There is no user with ID = "+ userId + " in Database")));
+        return userRegisterResponseMapper.toRegistrationResponseDto(userOptional.get());
+    }
+
     @Transactional
     public UserRegistrationResponseDto saveUser(UserRegistrationRequestDto userRegistrationRequestDto) {
         log.info("Saving user: {}", userRegistrationRequestDto);
         User saveUser = userRepository.save(userRegisterRequestMapper.toEntity(userRegistrationRequestDto));
         return userRegisterResponseMapper.toRegistrationResponseDto(saveUser);
+
     }
 
-//    public void deleteUser(Integer userId) {
-//        log.info("Delete user");
-//        if(userRepository.findById(userId).isEmpty()){
-//            throw new NoSuchException("There is no user with ID = "+ userId + " in Database");
-//        }
-//        userRepository.deleteById(userId);
-//    }
+    @Transactional
+    public UserRegistrationResponseDto changeUser(Integer userId,UserRegistrationRequestDto userRegistrationRequestDto){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isEmpty()){
+            throw new NoSuchException("There is no user with ID = "+ userId + " in Database");
+        }else{
+            User existingUser = optionalUser.get();
+            User updatedUser = userRegisterRequestMapper.toEntity(userRegistrationRequestDto);
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPassword(updatedUser.getPassword());
+            existingUser.setName(updatedUser.getName());
+            existingUser.setLastname(updatedUser.getLastname());
+            existingUser.setRole(updatedUser.getRole());
+            existingUser.setBirthday(updatedUser.getBirthday());
+
+            return userRegisterResponseMapper.toRegistrationResponseDto(userRepository.save(existingUser));
+        }
+    }
+
+    @Transactional
+    public void deleteUser(Integer userId) {
+        log.info("Delete user");
+        if(userRepository.findById(userId).isEmpty()){
+            throw new NoSuchException("There is no user with ID = "+ userId + " in Database");
+        }
+        userRepository.deleteById(userId);
+    }
 }

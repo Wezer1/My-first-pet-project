@@ -22,7 +22,7 @@ public class OrderController {
     @GetMapping("/")
    // @PreAuthorize("hasAuthority('users:read')")
     public ResponseEntity<List<OrderDTO>> getOrders(){
-        return ResponseEntity.ok(orderService.getAllUsers());
+        return ResponseEntity.ok(orderService.getAllOlders());
     }
 
     @GetMapping("/{ordersId}")
