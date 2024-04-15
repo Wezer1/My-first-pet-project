@@ -68,9 +68,7 @@ public class UserService {
             existingUser.setRole(updatedUser.getRole());
             existingUser.setBirthday(updatedUser.getBirthday());
 
-            User savedUser = userRepository.save(existingUser);
-
-            return userRegisterResponseMapper.toRegistrationResponseDto(savedUser);
+            return userRegisterResponseMapper.toRegistrationResponseDto(userRepository.save(existingUser));
         }
     }
 

@@ -21,7 +21,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-    public List<OrderDTO> getAllUsers() {
+    public List<OrderDTO> getAllOlders() {
         log.info("Get all Orders");
         if(orderRepository.findAll().isEmpty()){
             throw new NoSuchException("No orders");

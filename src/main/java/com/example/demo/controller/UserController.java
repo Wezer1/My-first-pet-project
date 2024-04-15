@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     @GetMapping("/")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<UserRegistrationResponseDto>> getOrders(){
+    public ResponseEntity<List<UserRegistrationResponseDto>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserRegistrationResponseDto> getOrders(@PathVariable Integer userId){
+    public ResponseEntity<UserRegistrationResponseDto> getUserById(@PathVariable Integer userId){
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
@@ -42,7 +42,7 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserRegistrationResponseDto> changeUser(@PathVariable Integer userId){
+    public ResponseEntity<UserRegistrationResponseDto> deleteUser(@PathVariable Integer userId){
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
